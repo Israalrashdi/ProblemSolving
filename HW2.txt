@@ -1,0 +1,33 @@
+def max_triangle_height(white, black):
+
+    height = 0
+
+    while True:
+
+        res = height + 1  # Balls needed for the next row
+
+        if white >= res:
+
+            white -= res
+
+            height += 1
+
+        elif black >= res:
+
+            black -= res
+
+            height += 1
+
+        else:
+
+            break
+
+    return height
+
+# Ex
+
+print(max_triangle_height(4, 2))  # Output: 3
+
+print(max_triangle_height(2, 2))  # Output: 2
+
+print(max_triangle_height(1, 1))  # Output: 1 
