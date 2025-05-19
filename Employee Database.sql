@@ -1,0 +1,88 @@
+CREATE DATABASE EMPLOYEES;
+USE EMPLOYEES;
+
+CREATE TABLE EMPLOYEE(
+EmpID INT(5) PRIMARY KEY,
+EmpName VARCHAR(20),
+EmpEmail VARCHAR(30)
+);
+
+CREATE TABLE DEVICES(
+DeviceID INT(5)PRIMARY KEY,
+DeviceName VARCHAR(20),
+DeviceType VARCHAR(30),
+EmpID INT(5),
+FOREIGN KEY (EmpID) REFERENCES EMPLOYEE(EmpID)
+);
+------------------------------------------------------------------
+CREATE DATABASE LIBRARY;
+USE LIBRARY;
+
+CREATE TABLE AUTHOR(
+AuhorID INT(5)PRIMARY KEY,
+AuthorName VARCHAR(20)
+);
+
+CREATE TABLE BOOKS(
+BookID INT(5)PRIMARY KEY,
+Bookname VARCHAR(20),
+FOREIGN KEY (AuhorID) REFERENCES AUTHOR (AuhorID)
+);
+---------------------------------------------------
+
+CREATE DATABASE UNIVERSITY;
+USE UNIVERSITY;
+
+CREATE TABLE STUDENTS(
+StudentID INT(5)PRIMARY KEY,
+StudentName VARCHAR(20) NOT NULL,
+StudentEmail VARCHAR(20),
+CONSTRAINT S_studentid_pk PRIMARY KEY (StudentID),
+FOREIGN KEY (CourseID) REFERENCES COURSES (CourseID),
+StudentGender CHAR(1) CONSTRAINT S_check_gender CHECK (StudentGender IN ('M','F'))
+);
+
+CREATE TABLE COURSES(
+CourseID INT(5) PRIMARY KEY,
+CourseName VARCHAR(20)
+);
+
+CREATE TABLE ENROLLMENTS(
+StudentID INT(5),
+CourseID INT(5),
+FOREIGN KEY (StudentID) REFERENCES STUDENTS (StudentID)ON DELETE CASCADE,
+FOREIGN KEY (CourseID) REFERENCES COURSES (CourseID)ON DELETE CASCADE
+);
+
+ALTER TABLE STUDENTS MODIFY COLUMN StudentName VARCHAR(20) NOT NULL;
+ALTER TABLE COURSES ADD CONSTRAINT CourseID PRIMARY KEY(CourseID);
+ALTER TABLE STUDENTS MODIFY COLUMN StudentName VARCHAR(20) NOT NULL;
+ALTER TABLE STUDENTS DROP CONSTRAINT S_check_gender;                             
+
+
+CONSTRAINT Student_Course_fk FOREIGN KEY (CourseID);
+REFERENCES COURSES(StudentID) ON DELETE CASCADE;
+
+CONSTRAINT Student_Course_fk  FOREIGN KEY(CourseID)
+REFERENCES COURSES(CourseID) ON DELETE SET NULL;
+ 
+ 
+ -- Insert into COURSES
+INSERT INTO COURSES (CourseID, CourseName) VALUES
+(101, 'Mathematics'),
+(102, 'Physics'),
+(103, 'Computer Science');
+
+-- Insert into STUDENTS
+INSERT INTO STUDENTS (StudentID, StudentName, StudentEmail) VALUES
+(1, 'Alice', 'alice@example.com'),
+(2, 'Bob', 'bob@example.com'),
+(3, 'Charlie', 'charlie@example.com');
+
+-- Insert into ENROLLMENTS
+INSERT INTO ENROLLMENTS (StudentID, CourseID) VALUES
+(1, 101),
+(1, 102),
+(2, 103),
+(3, 101),
+(3, 103);
